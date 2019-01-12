@@ -2,8 +2,8 @@ import easygui
 import json
 
 auswahl = ["ANMELDEN", "REGISTRIEREN"]
-
-benutzerdaten = json.load(open("benutzer-db.json", "w"))
+lesen = open("benutzer-db.json", "r")
+benutzerdaten = json.load(lesen)
 
 auswahlAnmeldung = easygui.buttonbox("WILKOMMEN BEI SCHOOLLIFE", "SCHOOLLIFE", auswahl)
 if auswahlAnmeldung == "ANMELDEN":
@@ -19,4 +19,5 @@ elif auswahlAnmeldung == "REGISTRIEREN":
             "email":registrierungsdaten[2],
             "passwort":registrierungsdaten[3]
         }
-        benutzerdaten.write(json.dumps(jsonDaten))
+        schreiben = open("benutzer-db.json", "w")
+        schreiben.write(json.dumps(benutzerdaten))
