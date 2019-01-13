@@ -9,9 +9,9 @@ auswahlAnmeldung = easygui.buttonbox("WILKOMMEN BEI SCHOOLLIFE", "SCHOOLLIFE", a
 if auswahlAnmeldung == "ANMELDEN":
     anmeldedaten = easygui.multenterbox("ANMELDEN", "SCHOOLLIFE", ["NAME", "PASSWORT"])
 elif auswahlAnmeldung == "REGISTRIEREN":
-    registrierungsdaten = easygui.multenterbox("REGISTRIEREN", "SCHOOLLIFE", ["NACHNAME", "VORNAME", "E-MAIL ADRESSE", "PASSWORT", "PASSWORT BESTÄTIGEN"])
+    registrierungsdaten = easygui.multenterbox("REGISTRIEREN", "SCHOOLLIFE", ["NACHNAME", "VORNAME", "E-MAIL ADRESSE", "PASSWORT", "PASSWORT BESTAETIGEN"])
     if registrierungsdaten[3] != registrierungsdaten[4]:
-        easygui.msgbox("PASWÖRTER STIMMEN NICHT ÜBEREIN")
+        easygui.msgbox("PASWOERTER STIMMEN NICHT UEBEREIN")
     else:
         jsonDaten = {
             "nachname":registrierungsdaten[0],
