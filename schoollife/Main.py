@@ -7,26 +7,25 @@ class Main:
         self.datenbase = Database('benutzer-db.json')
 
     def anmeldung(self):
-        anmeldungAktiv = True
 
-        while anmeldungAktiv:
-            auswahlAnmeldung = easygui.buttonbox("WILKOMMEN BEI SCHOOLLIFE", "SCHOOLLIFE", ["ANMELDEN", "REGISTRIEREN"])
-            if auswahlAnmeldung == "ANMELDEN":
-                anmeldedaten = easygui.multenterbox("ANMELDEN", "SCHOOLLIFE", ["NAME", "PASSWORT"])
+        while True:
+            auswahlAnmeldung = easygui.buttonbox("Wilkommen bei Schoollife", "Schoollife", ["Anmelden", "Registrieren"])
+            if auswahlAnmeldung == "Anmelden":
+                anmeldedaten = easygui.multpasswordbox("Anmelden", "Schoollife", ["E-Mail", "Passwort"])
                 user = self.datenbase.leseBenutzer(anmeldedaten[0])
                 if (user is None):  # User nicht in DB gefunden
                     easygui.msgbox("User exestiert nicht")
-                elif (user["passwort"] != anmeldedaten[1]):  # Passwort stimmt nicht mit DB überein
-                    easygui.msgbox("Falsches Passwort")
+                elif (user["passwort"] != anmeldedaten[1]):  # Passwort stimmt nicht mit DB ueberein
+                    easygui.msgbox("Falsches Passwort, haste gesoffen?")
                 else:
                     easygui.msgbox("Anmeldung war erfolgreich")
                     break
-            elif auswahlAnmeldung == "REGISTRIEREN":
+            elif auswahlAnmeldung == "Registrieren":
                 registrierungsdaten = easygui.multenterbox("REGISTRIEREN", "SCHOOLLIFE",
-                                                           ["NACHNAME", "VORNAME", "E-MAIL ADRESSE", "PASSWORT",
-                                                            "PASSWORT BESTÄTIGEN"])
+                                                           ["Nachname", "Vorname", "E-mail Adresse", "Passwort",
+                                                            "Passwort bestaetigen"])
                 if registrierungsdaten[3] != registrierungsdaten[4]:
-                    easygui.msgbox("PASWÖRTER STIMMEN NICHT ÜBEREIN")
+                    easygui.msgbox("Passwoerter stimmen nicht uebernrin")
                 elif self.datenbase.leseBenutzer(registrierungsdaten[2]) is not None:
                     easygui.msgbox("Benutzer mit email exestiert schon!")
                 else:
@@ -40,7 +39,7 @@ class Main:
                     easygui.msgbox("Benutzer wurde erfolgreich angelegt!")
 
     def benutzerAnzeigen(self):
-        easygui.msgbox("Hier müsst ihr weiter machen!")
+        easygui.msgbox("Hier muesst ihr weiter machen!")
 
     def beenden(self):
         self.datenbase.speichereDatenbank()
