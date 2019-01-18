@@ -6,7 +6,7 @@ class Main:
     def __init__(self):
         self.datenbase = Database('benutzer-db.json')
 
-    def show(self):
+    def anmeldung(self):
         anmeldungAktiv = True
 
         while anmeldungAktiv:
@@ -39,9 +39,15 @@ class Main:
                     self.datenbase.speicherBenutzer(neuerUser)
                     easygui.msgbox("Benutzer wurde erfolgreich angelegt!")
 
+    def benutzerAnzeigen(self):
+        easygui.msgbox("Hier müsst ihr weiter machen!")
+
+    def beenden(self):
         self.datenbase.speichereDatenbank()
 
 
 if __name__ == "__main__":
     x = Main()
-x.show()
+    x.anmeldung()
+    x.benutzerAnzeigen()
+    x.beenden()
