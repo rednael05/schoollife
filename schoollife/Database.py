@@ -8,9 +8,7 @@ class Database:
         self.daten = json.loads(file)
 
     def speicherBenutzer(self, user):
-        list = self.daten['user']
-        list.extend(user)
-        self.daten['user'] = list
+        self.daten['user'].append(user)
 
     def leseBenutzer(self, email):
         for user in self.daten['user']:

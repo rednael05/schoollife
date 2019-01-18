@@ -7,8 +7,11 @@ class Main:
 
     # Two methods:
     def show(self):
-        self.datenbase.speicherBenutzer({"test": "value"})
-        self.datenbase.leseBenutzer("test@bonsch.de")
+        user = self.datenbase.leseBenutzer("otto@test.de")
+        print(user['name'])
+        self.datenbase.speicherBenutzer({"name": "Leander",
+                                         "email": "leander@bonsch.de",
+                                         "pass": "test"})
         self.datenbase.speichereDatenbank()
 
 
