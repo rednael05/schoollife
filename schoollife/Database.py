@@ -13,8 +13,9 @@ class Database:
         self.daten['user'] = list
 
     def leseBenutzer(self, email):
-
-        print(self.daten)
+        for user in self.daten['user']:
+            if user['email'] == email:
+                return user
 
     def speichereDatenbank(self):
         schreiben = open("benutzer-db.json", "w")
