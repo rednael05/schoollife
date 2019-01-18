@@ -8,7 +8,7 @@ class Main:
     # Two methods:
     def show(self):
         self.datenbase.speicherBenutzer({"test": "value"})
-        self.datenbase.leseBenutzer()
+        self.datenbase.leseBenutzer("test@bonsch.de")
         self.datenbase.speichereDatenbank()
 
 
