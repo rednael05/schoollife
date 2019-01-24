@@ -1,5 +1,34 @@
 from schoollife.Database import Database
 import easygui
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
+from email import encoders
+import os.path
+
+email = 'reg.schoollife@gmail.com'
+password = 'LeanderLuka'
+send_to_email = 'kepalletsplay@gmail.com'
+subject = 'Schoollife Registration'
+message = 'Wilkommen bei Schoollife, der zukunft der School '
+
+
+msg = MIMEMultipart()
+msg['From'] = email
+msg['To'] = send_to_email
+msg['Subject'] = subject
+
+msg.attach(MIMEText(message, 'plain'))
+
+filename = os.path.basename("Email.json")
+attachment = open("Email.json", "rb")
+part = MIMEBase('application', 'octet-stream')
+part.set_payload((attachment).read())
+encoders.encode_base64(part)
+part.add_header('Content-Disposition', "attachment; filename= %s" % filename)
+
+msg.attach(part)
 
 
 class Main:
@@ -37,9 +66,18 @@ class Main:
                     }
                     self.datenbase.speicherBenutzer(neuerUser)
                     easygui.msgbox("Benutzer wurde erfolgreich angelegt!")
+                    server = smtplib.SMTP('smtp.gmail.com', 587)
+                    server.starttls()
+                    server.login(email, password)
+                    text = msg.as_string()
+                    server.sendmail(email, send_to_email, text)
+                    server.quit()
+
+                    print "successvull sent an Email to: " + send_to_email
 
     def benutzerAnzeigen(self):
-        easygui.msgbox("Hier muesst ihr weiter machen!")
+        easygui.msgbox("Schoollife 0.3")
+
 
     def beenden(self):
         self.datenbase.speichereDatenbank()
