@@ -9,14 +9,12 @@ import os.path
 
 email = 'reg.schoollife@gmail.com'
 password = 'LeanderLuka'
-send_to_email = 'kepalletsplay@gmail.com'
 subject = 'Schoollife Registration'
-message = 'Wilkommen bei Schoollife, der zukunft der School '
+message = 'Wilkommen bei Schoollife, der zukunft der Schule '
 
 
 msg = MIMEMultipart()
 msg['From'] = email
-msg['To'] = send_to_email
 msg['Subject'] = subject
 
 msg.attach(MIMEText(message, 'plain'))
@@ -65,19 +63,21 @@ class Main:
                         "passwort": registrierungsdaten[3]
                     }
                     self.datenbase.speicherBenutzer(neuerUser)
+                    self.sendeMail(registrierungsdaten[2])
                     easygui.msgbox("Benutzer wurde erfolgreich angelegt!")
-                    server = smtplib.SMTP('smtp.gmail.com', 587)
-                    server.starttls()
-                    server.login(email, password)
-                    text = msg.as_string()
-                    server.sendmail(email, send_to_email, text)
-                    server.quit()
 
-                    print "successvull sent an Email to: " + send_to_email
-
-    def benutzerAnzeigen(self):
+    def programmablauf(self):
         easygui.msgbox("Schoollife 0.3")
 
+    def sendeMail(self,mailTo):
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.starttls()
+        server.login(email, password)
+        text = msg.as_string()
+        server.sendmail(email, mailTo, text)
+        server.quit()
+
+        print "successvull sent an Email to: " + mailTo
 
     def beenden(self):
         self.datenbase.speichereDatenbank()
@@ -86,5 +86,5 @@ class Main:
 if __name__ == "__main__":
     x = Main()
     x.anmeldung()
-    x.benutzerAnzeigen()
+    x.programmablauf()
     x.beenden()
