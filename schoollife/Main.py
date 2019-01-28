@@ -7,12 +7,9 @@ from email.mime.base import MIMEBase
 from email import encoders
 import os.path
 from Tkinter import *
-import time
 
-
-root = Tk()
-time1 = ''
-clock = Label(root, font=('times', 20, 'bold'), bg='white')
+def doNothing():
+    print ("ok....")
 
 email = 'reg.schoollife@gmail.com'
 password = 'LeanderLuka'
@@ -27,7 +24,7 @@ msg['Subject'] = subject
 msg.attach(MIMEText(message, 'plain'))
 
 filename = os.path.basename("Email.json")
-attachment = open("Email.json", "rb")
+attachment = open("Email.txt", "rb")
 part = MIMEBase('application', 'octet-stream')
 part.set_payload((attachment).read())
 encoders.encode_base64(part)
@@ -73,26 +70,28 @@ class Main:
                     self.sendeMail(registrierungsdaten[2])
                     easygui.msgbox("Benutzer wurde erfolgreich angelegt!")
 
+
     def programmablauf(self):
-        easygui.msgbox("Schoollife 0.3")
 
-        clock.pack(fill=BOTH, expand=1)
 
-        def tick():
-            global time1
-            # get the current local time from the PC
-            time2 = time.strftime('%H:%M:%S')
-            # if time string has changed, update it
-            if time2 != time1:
-                time1 = time2
-                clock.config(text=time2)
-            # calls itself every 200 milliseconds
-            # to update the time display as needed
-            # could use >200 ms, but display gets jerky
-            clock.after(200, tick)
+        root = Tk()
 
-        tick()
+        menu = Menu(root)
+        root.config(menu=menu)
+
+        subMenu = Menu(menu)
+        menu.add_cascade(label="Schoollife", menu=subMenu)
+        subMenu.add_command(label="Notenschnittrechner", command=doNothing)
+        subMenu.add_command(label="Exit", command=doNothing)
+
+        editMenu = Menu(menu)
+        menu.add_cascade(label="File:", menu=editMenu)
+        editMenu.add_command(label="Undo", command=doNothing)
+        label = Label(root, text="Schoollife 0.3", fg="WHITE", bg="BLACK")
+        label.pack(fill=X, side="top")
+
         root.mainloop()
+
 
     def sendeMail(self,mailTo):
         server = smtplib.SMTP('smtp.gmail.com', 587)
@@ -103,6 +102,7 @@ class Main:
         server.quit()
 
         print "successvull sent an Email to: " + mailTo
+        print
 
     def beenden(self):
         self.datenbase.speichereDatenbank()
