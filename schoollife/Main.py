@@ -1,13 +1,13 @@
 from schoollife.Database import Database
 from schoollife.Email import Email
-from Tkinter import *
+from tkinter import *
 import easygui
 
 
 class Main:
     def __init__(self):
         self.datenbase = Database('data/benutzer-db.json')
-        self.email = Email('benutzer-db.json')
+        self.email = Email('reg.schoollife@gmail.com')
 
     def registration(self):
         while True:
@@ -41,24 +41,26 @@ class Main:
                     self.email.send_registration_mail(registrierungsdaten[2])
                     easygui.msgbox("Benutzer wurde erfolgreich angelegt!")
 
-    def main_window(user):
+    def main_window(self, user):
         root = Tk()
-
         menu = Menu(root)
-        root.config(menu=menu)
+        root.config(menu)
 
         subMenu = Menu(menu)
-        menu.add_cascade(label="Schoollife", menu=subMenu)
-        subMenu.add_command(label="Notenschnittrechner", command=doNothing)
-        subMenu.add_command(label="Exit", command=doNothing)
+        menu.add_cascade("Schoollife", self.doNothing())
+        subMenu.add_command("Notenschnittrechner", self.doNothing())
+        subMenu.add_command("Exit", self.doNothing())
 
         editMenu = Menu(menu)
-        menu.add_cascade(label="File:", menu=editMenu)
-        editMenu.add_command(label="Undo", command=doNothing)
-        label = Label(root, text="Schoollife 0.3", fg="WHITE", bg="BLACK")
-        label.pack(fill=X, side="top")
+        menu.add_cascade("File:", editMenu)
+        editMenu.add_command("Undo", )
+        label = Label(root, "Schoollife 0.3", "WHITE", "BLACK")
+        label.pack(X, "top")
 
         root.mainloop()
+
+    def doNothing(self):
+        print('doNothing')
 
     def exit(self):
         self.datenbase.saveDatabase()
