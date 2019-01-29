@@ -7,14 +7,14 @@ class Database:
         file = open(filename, "r").read()
         self.daten = json.loads(file)
 
-    def speicherBenutzer(self, user):
+    def saveUser(self, user):
         self.daten['user'].append(user)
 
-    def leseBenutzer(self, email):
+    def readUser(self, email):
         for user in self.daten['user']:
             if user['email'] == email:
                 return user
 
-    def speichereDatenbank(self):
+    def saveDatabase(self):
         schreiben = open("benutzer-db.json", "w")
         schreiben.write(json.dumps(self.daten))
