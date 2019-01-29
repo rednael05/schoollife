@@ -7,7 +7,7 @@ import easygui
 class Main:
     def __init__(self):
         self.datenbase = Database('data/benutzer-db.json')
-        self.email = Email('reg.schoollife@gmail.com')
+        self.email = Email('reg.schoollife@gmail.com', 'LeanderLuka')
 
     def registration(self):
         while True:
@@ -17,7 +17,7 @@ class Main:
                 user = self.datenbase.readUser(anmeldedaten[0])
                 if (user is None):  # User nicht in DB gefunden
                     easygui.msgbox("User exestiert nicht")
-                elif (user["passwort"] != anmeldedaten[1]):  # Passwort stimmt nicht mit DB ueberein
+                elif user["passwort"] != anmeldedaten[1]:  # Passwort stimmt nicht mit DB ueberein
                     easygui.msgbox("Falsches Passwort, haste gesoffen?")
                 else:
                     easygui.msgbox("Anmeldung war erfolgreich")
@@ -41,35 +41,34 @@ class Main:
                     self.email.send_registration_mail(registrierungsdaten[2])
                     easygui.msgbox("Benutzer wurde erfolgreich angelegt!")
 
-    def main_window(self, user):
+    def testMenu(self, user):
         root = Tk()
+        root.geometry("450x350")
         menu = Menu(root)
-        root.config(menu)
 
         subMenu = Menu(menu)
-        menu.add_cascade("Schoollife", self.doNothing())
-        subMenu.add_command("Notenschnittrechner", self.doNothing())
-        subMenu.add_command("Exit", self.doNothing())
+        menu.add_cascade(label="Schoollife", menu=subMenu)
+        subMenu.add_command(label="Notenschnittrechner", command=self.do_nothing)
+        subMenu.add_command(label="Exit", command=self.do_nothing)
 
         editMenu = Menu(menu)
-        menu.add_cascade("File:", editMenu)
-        editMenu.add_command("Undo", )
-        label = Label(root, "Schoollife 0.3", "WHITE", "BLACK")
-        label.pack(X, "top")
-
-        root.mainloop()
-
-    def doNothing(self):
-        print('doNothing')
+        menu.add_cascade(label="File:", menu=editMenu)
+        editMenu.add_command(label="Exit", command=self.exit)
+        label = Label(root, text="Schoollife 0.3 - Hallo " + user["vorname"])
+        label.pack()
+        root.config(menu=menu)
 
     def exit(self):
         self.datenbase.saveDatabase()
         self.email.quit()
         exit(0)
 
+    def do_nothing(self):
+        print('doNothing')
+
 
 if __name__ == "__main__":
     x = Main()
     user = x.registration()
-    x.main_window(user)
-    x.exit()
+    x.testMenu(user)
+    mainloop()

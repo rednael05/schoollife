@@ -1,1 +1,10 @@
-{"user": [{"nachname": "Otto", "passwort": "blabla", "vorname": "Otto", "email": "otto@test.de"}, {"nachname": "123eqwe2q2e", "passwort": "123", "vorname": "q2eq2e", "email": "123"}, {"passwort": "123", "nachname": "123wqwe", "vorname": "q3e2qweq2e", "email": "12345"}]}
+{
+  "user": [
+    {
+      "nachname": "Otto",
+      "passwort": "blabla",
+      "vorname": "Otto",
+      "email": "otto@test.de"
+    }
+  ]
+}
