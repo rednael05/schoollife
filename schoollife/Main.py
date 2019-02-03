@@ -49,10 +49,10 @@ class Main:
         subMenu = Menu(menu)
         menu.add_cascade(label="Schoollife", menu=subMenu)
         subMenu.add_command(label="Notenschnittrechner", command=self.do_nothing)
-        subMenu.add_command(label="Exit", command=self.do_nothing)
+        subMenu.add_command(label="Do nothing", command=self.do_nothing)
 
         editMenu = Menu(menu)
-        menu.add_cascade(label="File:", menu=editMenu)
+        menu.add_cascade(label="Help", menu=editMenu)
         editMenu.add_command(label="Exit", command=self.exit)
         label = Label(root, text="Schoollife 0.3 - Hallo " + user["vorname"])
         label.pack()
