@@ -2,6 +2,8 @@ from schoollife.Database import Database
 from schoollife.Email import Email
 from tkinter import *
 import easygui
+import random
+
 
 
 class Main:
@@ -20,31 +22,46 @@ class Main:
                 elif user["passwort"] != anmeldedaten[1]:  # Passwort stimmt nicht mit DB ueberein
                     easygui.msgbox("Falsches Passwort, haste gesoffen?")
                 else:
-                    easygui.msgbox("Anmeldung war erfolgreich")
+                    if user["freigeschaltet"]=="false":
+                       code = easygui.passwordbox("Bitte Accoount freischalten",["Bestaetigungscode:"] )
+                       print("code: "+code+" random: "+user["random"])
+                       if code == user["random"]:
+                            user["freigeschaltet"] = "true"
+                            easygui.msgbox("Anmeldung war erfolgreich")
+                            self.datenbase.saveDatabase()
+
+                       else:
+                        easygui.msgbox("Falscher Bestätigungscode")
                     return user
             elif auswahlAnmeldung == "Registrieren":
                 registrierungsdaten = easygui.multenterbox("REGISTRIEREN", "SCHOOLLIFE",
-                                                           ["Nachname", "Vorname", "E-mail Adresse", "Passwort",
-                                                            "Passwort bestaetigen"])
-                if registrierungsdaten[3] != registrierungsdaten[4]:
-                    easygui.msgbox("Passwoerter stimmen nicht uebernrin")
-                elif self.datenbase.readUser(registrierungsdaten[2]) is not None:
-                    easygui.msgbox("Benutzer mit email exestiert schon!")
-                else:
-                    neuerUser = {
-                        "nachname": registrierungsdaten[0],
-                        "vorname": registrierungsdaten[1],
-                        "email": registrierungsdaten[2],
-                        "passwort": registrierungsdaten[3]
-                    }
-                    self.datenbase.saveUser(neuerUser)
-                    self.email.send_registration_mail(registrierungsdaten[2])
-                    easygui.msgbox("Benutzer wurde erfolgreich angelegt!")
+                                                       ["Nachname", "Vorname", "E-mail Adresse", "Passwort",
+                                                        "Passwort bestaetigen"])
+            if registrierungsdaten[3] != registrierungsdaten[4]:
+                easygui.msgbox("Passwoerter stimmen nicht uebernrin")
+            elif self.datenbase.readUser(registrierungsdaten[2]) is not None:
+                easygui.msgbox("Benutzer mit email exestiert schon!")
+
+            else:
+                code = str(random.randint(100000, 999999))
+                neuerUser = {
+                    "nachname": registrierungsdaten[0],
+                    "vorname": registrierungsdaten[1],
+                    "email": registrierungsdaten[2],
+                    "passwort": registrierungsdaten[3],
+                    "random": code,
+                    "freigeschaltet": "false"
+                }
+
+                self.datenbase.saveUser(neuerUser)
+                self.email.send_registration_mail(registrierungsdaten[2],code)
+                self.datenbase.saveDatabase()
+                easygui.msgbox("Benutzer wurde erfolgreich angelegt!")
 
     def testMenu(self, user):
-        root = Tk()
-        root.geometry("450x350")
-        menu = Menu(root)
+        self.root = Tk()
+        self.root.geometry("450x350")
+        menu = Menu(self.root)
 
         subMenu = Menu(menu)
         menu.add_cascade(label="Schoollife", menu=subMenu)
@@ -54,17 +71,29 @@ class Main:
         editMenu = Menu(menu)
         menu.add_cascade(label="Help", menu=editMenu)
         editMenu.add_command(label="Exit", command=self.exit)
-        label = Label(root, text="Schoollife 0.3 - Hallo " + user["vorname"])
+        label = Label(self.root, text="Schoollife 0.3 - Hallo " + user["vorname"])
         label.pack()
-        root.config(menu=menu)
+        self.root.config(menu=menu)
 
     def exit(self):
         self.datenbase.saveDatabase()
         self.email.quit()
         exit(0)
 
+
+
     def do_nothing(self):
-        print('doNothing')
+
+
+        TopFrame = Frame()
+        TopFrame.pack()
+
+        Label_1 = Label(TopFrame, text="Note_1")
+        Entry_1 = Entry(TopFrame)
+
+
+        Label_1.pack( )
+        Entry_1.grid(row=0 , column=1)
 
 
 if __name__ == "__main__":

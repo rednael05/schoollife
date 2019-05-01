@@ -1,10 +1,1 @@
-{
-  "user": [
-    {
-      "nachname": "Otto",
-      "passwort": "blabla",
-      "vorname": "Otto",
-      "email": "otto@test.de"
-    }
-  ]
-}
+{"user": [{"nachname": "Otto", "passwort": "blabla", "vorname": "Otto", "email": "otto@test.de"}, {"nachname": "123", "vorname": "123", "email": "luka.noluja@gmail.com", "passwort": "123", "random": "954794", "freigeschaltet": "true"}]}
