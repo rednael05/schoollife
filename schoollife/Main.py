@@ -11,6 +11,9 @@ class Main:
         self.datenbase = Database('data/benutzer-db.json')
         self.email = Email('reg.schoollife@gmail.com', 'LeanderLuka')
 
+    def loadUser(self):
+        return self.datenbase.readFirstUser()
+
     def registration(self):
         while True:
             auswahlAnmeldung = easygui.buttonbox("Wilkommen bei Schoollife", "Schoollife", ["Anmelden", "Registrieren"])
@@ -58,7 +61,7 @@ class Main:
                 self.datenbase.saveDatabase()
                 easygui.msgbox("Benutzer wurde erfolgreich angelegt!")
 
-    def testMenu(self, user):
+    def mainFrame(self, user):
         self.root = Tk()
         self.root.geometry("450x350")
         menu = Menu(self.root)
@@ -80,24 +83,20 @@ class Main:
         self.email.quit()
         exit(0)
 
-
-
     def do_nothing(self):
-
-
         TopFrame = Frame()
-        TopFrame.pack()
 
         Label_1 = Label(TopFrame, text="Note_1")
         Entry_1 = Entry(TopFrame)
 
-
-        Label_1.pack( )
-        Entry_1.grid(row=0 , column=1)
+        Label_1.grid(row=0, column=0)
+        Entry_1.grid(row=0, column=1)
+        TopFrame.pack()
 
 
 if __name__ == "__main__":
     x = Main()
-    user = x.registration()
-    x.testMenu(user)
+    #user = x.registration()
+    user = x.loadUser()
+    x.mainFrame(user)
     mainloop()

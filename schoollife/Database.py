@@ -13,6 +13,9 @@ class Database:
         schreiben = open(self.db_file, "w")
         schreiben.write(json.dumps(self.daten))
 
+    def readFirstUser(self):
+        return self.daten['user'][0]
+
     def readUser(self, email):
         for user in self.daten['user']:
             if user['email'] == email:
